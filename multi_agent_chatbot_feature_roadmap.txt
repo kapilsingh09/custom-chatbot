@@ -1,0 +1,202 @@
+MULTI-AGENT CHATBOT — FEATURE ROADMAP
+
+1. CORE AI ARCHITECTURE
+- Supervisor / Router Agent
+- General Chat Agent
+- Deep Research Agent
+- RAG Agent
+- Tool-Calling Agent
+- Critic / Verification Agent
+- Final Answer / Writer Agent
+- LangGraph-based orchestration
+- Parallel agent execution
+
+2. DEEP RESEARCH
+- Research Planner
+- Parallel Web Researchers
+- Web Search
+- URL / Web-page Reader
+- Evidence Collector
+- Source Credibility Checking
+- Claim → Evidence Mapping
+- Contradiction Detection
+- Citation Generation
+- Automatic re-search when evidence is weak
+- Research Report Generation
+- Real-time research progress
+
+3. ADVANCED RAG
+- PDF ingestion
+- DOCX ingestion
+- Web-page ingestion
+- Markdown / TXT ingestion
+- CSV ingestion
+- Document metadata
+- Semantic / intelligent chunking
+- Vector search
+- BM25 search
+- Hybrid Search (Vector + BM25)
+- Query Rewriting
+- Multi-Query Retrieval
+- Reranking
+- Contextual Compression
+- Metadata Filtering
+- Parent-Child Retrieval
+- RAG Citations
+- Retrieval Confidence
+- Multimodal RAG (later)
+- Graph RAG / Knowledge Graph (later)
+
+4. TOOL CALLING
+- Web Search Tool
+- Calculator Tool
+- Python / Code Execution Tool
+- File Search Tool
+- URL Reader Tool
+- Database Query Tool
+- Weather Tool
+- Deep Research Tool
+- Custom Tool Registry
+- Tool Timeout Handling
+- Tool Retry Handling
+- Tool Result Validation
+
+5. MEMORY
+- Conversation Memory
+- Short-Term Memory
+- Long-Term Memory
+- User Preferences Memory
+- Research Memory
+- Memory Retrieval
+- Memory Extraction Agent
+- Memory Update / Delete
+
+6. CHAT EXPERIENCE
+- Streaming Responses
+- Real-Time Agent Status
+- Tool Execution Status
+- Research Progress Timeline
+- Source Preview
+- Citations
+- Markdown Rendering
+- Code Blocks
+- File Upload
+- Conversation History
+- Regenerate Response
+- Stop Generation
+- Follow-up Questions
+
+7. PRODUCTION BACKEND
+- FastAPI
+- LangGraph
+- Async Agent Execution
+- Background Jobs
+- Redis / Caching
+- PostgreSQL
+- Vector Database
+- Authentication
+- User Workspaces
+- Rate Limiting
+- API Validation
+- Error Handling
+- Model Fallback
+- Structured Logging
+
+8. OBSERVABILITY
+- Agent Execution Tracing
+- LLM Call Tracking
+- Tool Call Tracking
+- Token Usage Tracking
+- Latency Tracking
+- Cost Tracking
+- Retrieval Metrics
+- Agent Failure Tracking
+- OpenTelemetry / LangSmith-style tracing
+
+9. AI EVALUATION
+- RAG Evaluation
+- Retrieval Precision
+- Retrieval Recall
+- Answer Faithfulness
+- Citation Accuracy
+- Hallucination Detection
+- Agent Task Success Rate
+- Tool-Calling Accuracy
+- Automated Evaluation Dataset
+
+10. FRONTEND
+- React + Tailwind
+- Chat Interface
+- Agent Activity Panel
+- Research Timeline
+- Tool Execution Cards
+- Source / Citation Panel
+- File Upload UI
+- Knowledge Base UI
+- Conversation Sidebar
+- Workspace Dashboard
+- Research Report Viewer
+- Dark Mode
+
+11. ADVANCED FEATURES — LATER
+- Multimodal Input
+- Image Understanding
+- Voice Input
+- Voice Output
+- PDF Vision / Table Understanding
+- Agent-to-Agent Communication
+- Human-in-the-Loop
+- Scheduled Research
+- Autonomous Background Agents
+- Model Routing
+- Model Comparison
+- Custom Agent Creation
+
+IMPLEMENTATION PHASES
+
+PHASE 1 — FOUNDATION
+- Chat
+- Streaming
+- Supervisor / Router
+- Tool Calling
+- Basic Memory
+- LangGraph orchestration
+
+PHASE 2 — INTELLIGENCE
+- Advanced RAG
+- Deep Research
+- Parallel Agents
+- Evidence Collection
+- Critic / Verification
+- Citations
+
+PHASE 3 — PRODUCTION
+- Authentication
+- Workspaces
+- Redis
+- PostgreSQL
+- Observability
+- Evaluation
+- Cost / Token tracking
+
+PHASE 4 — ADVANCED
+- Multimodal RAG
+- Graph RAG
+- Voice
+- Human-in-the-Loop
+- Autonomous Agents
+- Advanced Model Routing
+
+PRIMARY GOAL
+
+Build a production-oriented multi-agent AI chatbot that can:
+1. Understand the user's request.
+2. Route it to the correct agent.
+3. Retrieve information from private knowledge bases.
+4. Search the web when required.
+5. Call external tools when required.
+6. Perform deep research using parallel agents.
+7. Verify evidence and detect contradictions.
+8. Remember useful context.
+9. Stream agent activity and the final answer in real time.
+10. Provide grounded answers with reliable citations.
