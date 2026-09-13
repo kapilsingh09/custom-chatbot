@@ -1,26 +1,39 @@
+# ============================================================
+# main.py  —  FastAPI app setup (entry point)
+# ============================================================
+# This file only does 2 things:
+#   1. Creates the FastAPI app with CORS
+#   2. Includes the route files
+#
+# Run with:  uvicorn app.main:app --reload
+# ============================================================
+
 from fastapi import FastAPI
-from pydantic import BaseModel
-from dotenv import load_dotenv
-from langgraph.graph import StateGraph,START,END
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_core.messages import BaseMessage,HumanMessage
-from langgraph.graph import add_messages
-from typing import Annotated,List,TypedDict
+from fastapi.middleware.cors import CORSMiddleware
 
+from app.routes.chat import router as chat_router
 
-load_dotenv()
-app = FastAPI()
+# ----------------------------------------------------------
+# Create the FastAPI app
+# ----------------------------------------------------------
+app = FastAPI(title="MA Chatbot API")
 
+# Allow the Next.js frontend (localhost:3000) to call this API
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-
-class ChatState(TypedDict):
-    messages:Annotated[List[BaseMessage],add_messages]
+# ----------------------------------------------------------
+# Include routes
+# ----------------------------------------------------------
+app.include_router(chat_router)
 
 
 @app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-@app.get("/chat")
-def run_model(state:ChatState):
-    return state['messages'][-1].content
+def root():
+    """Health check — just to verify the server is running."""
+    return {"status": "ok", "message": "MA Chatbot API is running!"}
