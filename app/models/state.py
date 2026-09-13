@@ -1,5 +1,5 @@
 # ============================================================
-# state.py  —  Defines the ChatState (conversation state)
+# models/state.py  —  Defines the ChatState (conversation state)
 # ============================================================
 
 from typing import Annotated, List, TypedDict

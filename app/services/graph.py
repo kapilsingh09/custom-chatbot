@@ -1,5 +1,5 @@
 # ============================================================
-# graph.py  —  Builds the LangGraph workflow
+# services/graph.py  —  Builds the LangGraph workflow
 # ============================================================
 # This is the same logic from your notebook:
 #   START → chat_node → END
@@ -10,8 +10,8 @@ from langgraph.graph import StateGraph, START, END
 from langgraph.checkpoint.memory import InMemorySaver
 from langchain_core.messages import SystemMessage
 
-from app.state import ChatState
-from app.llm import google_llm
+from app.models.state import ChatState
+from app.services.llm import google_llm
 
 
 # ----------------------------------------------------------

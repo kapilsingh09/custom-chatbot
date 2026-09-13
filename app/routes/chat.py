@@ -6,8 +6,8 @@ import uuid
 from fastapi import APIRouter
 from langchain_core.messages import HumanMessage
 
-from app.schemas import ChatRequest, ChatResponse
-from app.graph import workflow
+from app.models.schemas import ChatRequest, ChatResponse
+from app.services.graph import workflow
 
 # Create a router (like a mini FastAPI app for this endpoint)
 router = APIRouter()

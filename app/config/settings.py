@@ -1,5 +1,5 @@
 # ============================================================
-# config.py  —  Loads environment variables from .env
+# config/settings.py  —  Loads environment variables from .env
 # ============================================================
 
 import os

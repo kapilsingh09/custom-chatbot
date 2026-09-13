@@ -1,5 +1,5 @@
 # ============================================================
-# schemas.py  —  Pydantic models for request/response
+# models/schemas.py  —  Pydantic models for request/response
 # ============================================================
 
 from pydantic import BaseModel
