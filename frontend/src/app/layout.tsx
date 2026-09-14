@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "MA Chatbot — AI Assistant",
+  title: "MA ChatBot",
   description:
     "An AI-powered chatbot built with LangGraph and Google Gemini. Ask me anything!",
 };
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-animated-gradient">
+      <body className="min-h-full flex flex-col bg-bg-primary">
         {children}
       </body>
     </html>

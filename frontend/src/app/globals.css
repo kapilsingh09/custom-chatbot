@@ -2,26 +2,27 @@
 @import "@fortawesome/fontawesome-free/css/all.min.css";
 
 /* ========================================
-   THEME — Custom CSS properties
+   THEME — ChatGPT-inspired dark theme
    ======================================== */
 @theme inline {
-  --color-bg-primary: #09090b;
-  --color-bg-secondary: #18181b;
-  --color-bg-glass: rgba(39, 39, 42, 0.45);
-  --color-bg-glass-light: rgba(63, 63, 70, 0.3);
-  --color-border-glass: rgba(255, 255, 255, 0.08);
-  --color-border-glass-hover: rgba(255, 255, 255, 0.15);
-  --color-accent: #2dd4bf;
-  --color-accent-dark: #14b8a6;
-  --color-accent-glow: rgba(45, 212, 191, 0.15);
-  --color-accent-glow-strong: rgba(45, 212, 191, 0.25);
-  --color-user-bubble-from: #0d9488;
-  --color-user-bubble-to: #0891b2;
-  --color-text-primary: #f4f4f5;
-  --color-text-secondary: #a1a1aa;
-  --color-text-muted: #71717a;
+  --color-bg-primary: #000000;
+  --color-bg-secondary: #0a0a0a;
+  --color-bg-sidebar: #0a0a0a;
+  --color-bg-hover: #1a1a1a;
+  --color-bg-message-ai: #0a0a0a;
+  --color-bg-input: #1a1a1a;
+  --color-bg-input-focus: #1e1e1e;
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-border-input: rgba(255, 255, 255, 0.12);
+  --color-text-primary: #ececec;
+  --color-text-secondary: #b4b4b4;
+  --color-text-muted: #6b6b6b;
+  --color-text-placeholder: #666666;
+  --color-accent: #ffffff;
+  --color-send-bg: #ffffff;
+  --color-send-text: #000000;
+  --color-send-disabled: #333333;
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
 /* ========================================
@@ -29,6 +30,8 @@
    ======================================== */
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
@@ -38,7 +41,7 @@ html {
 body {
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
-  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   min-height: 100%;
   display: flex;
   flex-direction: column;
@@ -54,64 +57,47 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(161, 161, 170, 0.25);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(161, 161, 170, 0.4);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 /* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(161, 161, 170, 0.25) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
 }
 
 /* ========================================
-   GLASSMORPHISM UTILITY
-   ======================================== */
-.glass {
-  background: var(--color-bg-glass);
-  backdrop-filter: blur(24px) saturate(1.2);
-  -webkit-backdrop-filter: blur(24px) saturate(1.2);
-  border: 1px solid var(--color-border-glass);
-}
-
-.glass-light {
-  background: var(--color-bg-glass-light);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--color-border-glass);
-}
-
-/* ========================================
-   ANIMATIONS
+   ANIMATIONS (subtle, no bg animation)
    ======================================== */
 
-/* Message slide in from bottom */
+/* Message fade in */
 @keyframes message-in {
   0% {
     opacity: 0;
-    transform: translateY(16px) scale(0.97);
+    transform: translateY(8px);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
 .animate-message-in {
-  animation: message-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: message-in 0.3s ease-out forwards;
 }
 
-/* Typing dots bounce */
+/* Typing dots */
 @keyframes bounce-dot {
   0%, 60%, 100% {
     transform: translateY(0);
-    opacity: 0.4;
+    opacity: 0.3;
   }
   30% {
-    transform: translateY(-6px);
+    transform: translateY(-4px);
     opacity: 1;
   }
 }
@@ -133,31 +119,13 @@ body {
 }
 
 .animate-fade-in {
-  animation: fade-in 0.5s ease forwards;
+  animation: fade-in 0.4s ease forwards;
 }
 
-/* Pulse glow for send button */
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 0 0 var(--color-accent-glow-strong);
-  }
-  50% {
-    box-shadow: 0 0 16px 4px var(--color-accent-glow-strong);
-  }
-}
-
-/* Subtle background gradient animation */
-@keyframes gradient-shift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-.bg-animated-gradient {
-  background: linear-gradient(135deg, #09090b 0%, #0f172a 25%, #09090b 50%, #0a1628 75%, #09090b 100%);
-  background-size: 400% 400%;
-  animation: gradient-shift 15s ease infinite;
+/* ========================================
+   TEXTAREA AUTO-RESIZE
+   ======================================== */
+textarea {
+  resize: none;
+  field-sizing: content;
 }
