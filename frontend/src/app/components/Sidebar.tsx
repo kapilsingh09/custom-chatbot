@@ -19,17 +19,30 @@ const MOCK_HISTORY: ChatHistory[] = [
 export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
+  if (isCollapsed) {
+    return (
+      <div className="flex-shrink-0 w-0 relative">
+        {/* Floating toggle button when sidebar is collapsed */}
+        <button
+          onClick={() => setIsCollapsed(false)}
+          className="absolute top-3 left-3 z-10 w-8 h-8 rounded-lg flex items-center justify-center
+                     text-text-muted hover:text-text-primary hover:bg-bg-hover
+                     transition-all duration-200 cursor-pointer"
+          title="Open sidebar"
+        >
+          <i className="fa-solid fa-bars text-sm"></i>
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <aside
-      className={`${
-        isCollapsed ? "w-0 overflow-hidden" : "w-[260px]"
-      } bg-bg-sidebar h-full flex flex-col border-r border-border-subtle transition-all duration-300 flex-shrink-0`}
-    >
+    <aside className="w-[260px] flex-shrink-0 bg-bg-sidebar flex flex-col border-r border-border-subtle">
       {/* Top section */}
-      <div className="flex items-center justify-between p-3">
+      <div className="flex items-center justify-between p-3 flex-shrink-0">
         {/* Toggle sidebar */}
         <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
+          onClick={() => setIsCollapsed(true)}
           className="w-8 h-8 rounded-lg flex items-center justify-center
                      text-text-muted hover:text-text-primary hover:bg-bg-hover
                      transition-all duration-200 cursor-pointer"
@@ -50,14 +63,14 @@ export default function Sidebar() {
       </div>
 
       {/* Chat history list */}
-      <div className="flex-1 overflow-y-auto px-2 py-1">
+      <div className="flex-1 overflow-y-auto px-2 py-1 min-h-0">
         <p className="px-3 py-2 text-xs font-medium text-text-muted">Today</p>
         {MOCK_HISTORY.map((chat) => (
           <button
             key={chat.id}
             className="w-full text-left px-3 py-2.5 rounded-lg text-sm text-text-secondary
                        hover:bg-bg-hover hover:text-text-primary
-                       transition-all duration-150 cursor-pointer truncate"
+                       transition-all duration-150 cursor-pointer truncate block"
           >
             {chat.title}
           </button>
@@ -65,7 +78,7 @@ export default function Sidebar() {
       </div>
 
       {/* Bottom section */}
-      <div className="border-t border-border-subtle p-3">
+      <div className="border-t border-border-subtle p-3 flex-shrink-0">
         <button
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-text-secondary
                      hover:bg-bg-hover hover:text-text-primary

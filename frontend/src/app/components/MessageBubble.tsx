@@ -1,7 +1,7 @@
 "use client";
 
 // ---------------------------------------------------------
-// MessageBubble — displays a single chat message
+// MessageBubble — ChatGPT-style message layout
 // ---------------------------------------------------------
 
 interface Message {
@@ -18,53 +18,45 @@ interface MessageBubbleProps {
 export default function MessageBubble({ message }: MessageBubbleProps) {
   const isUser = message.role === "user";
 
-  // Format time as HH:MM
-  const time = message.timestamp.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-
   return (
-    <div
-      className={`flex items-end gap-2.5 animate-message-in ${
-        isUser ? "flex-row-reverse" : "flex-row"
-      }`}
-    >
-      {/* Avatar */}
-      <div
-        className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 ${
-          isUser
-            ? "bg-gradient-to-br from-user-bubble-from to-user-bubble-to"
-            : "bg-accent-glow"
-        }`}
-      >
-        <i
-          className={`fa-solid ${isUser ? "fa-user" : "fa-robot"} text-[11px] ${
-            isUser ? "text-white" : "text-accent"
-          }`}
-        ></i>
-      </div>
-
-      {/* Bubble */}
-      <div className={`max-w-[75%] flex flex-col ${isUser ? "items-end" : "items-start"}`}>
+    <div className="animate-message-in">
+      <div className={`flex gap-4 ${isUser ? "flex-row-reverse" : "flex-row"}`}>
+        {/* Avatar */}
         <div
-          className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
+          className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
             isUser
-              ? "bg-gradient-to-r from-user-bubble-from to-user-bubble-to text-white rounded-br-sm"
-              : "glass-light text-text-primary rounded-bl-sm"
+              ? "bg-white/10"
+              : "bg-bg-hover border border-border-subtle"
           }`}
         >
-          {/* Render text with line breaks */}
-          {message.text.split("\n").map((line, i) => (
-            <span key={i}>
-              {line}
-              {i < message.text.split("\n").length - 1 && <br />}
-            </span>
-          ))}
+          <i
+            className={`fa-solid ${isUser ? "fa-user" : "fa-robot"} text-xs ${
+              isUser ? "text-text-secondary" : "text-text-secondary"
+            }`}
+          ></i>
         </div>
 
-        {/* Timestamp */}
-        <span className="text-[10px] text-text-muted mt-1 px-1">{time}</span>
+        {/* Content */}
+        <div className={`flex flex-col max-w-[85%] ${isUser ? "items-end" : "items-start"}`}>
+          {/* Role label */}
+          <span className="text-xs font-semibold text-text-secondary mb-1.5">
+            {isUser ? "You" : "MA ChatBot"}
+          </span>
+
+          {/* Message text */}
+          <div
+            className={`text-sm leading-7 ${
+              isUser ? "text-text-primary text-right" : "text-text-primary"
+            }`}
+          >
+            {message.text.split("\n").map((line, i) => (
+              <span key={i}>
+                {line}
+                {i < message.text.split("\n").length - 1 && <br />}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

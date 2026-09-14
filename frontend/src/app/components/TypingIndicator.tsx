@@ -6,18 +6,23 @@
 
 export default function TypingIndicator() {
   return (
-    <div className="flex items-end gap-2.5 animate-message-in">
-      {/* AI Avatar */}
-      <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 bg-accent-glow">
-        <i className="fa-solid fa-robot text-[11px] text-accent"></i>
-      </div>
+    <div className="animate-message-in">
+      <div className="flex gap-4">
+        {/* AI Avatar */}
+        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 bg-bg-hover border border-border-subtle">
+          <i className="fa-solid fa-robot text-xs text-text-secondary"></i>
+        </div>
 
-      {/* Dots bubble */}
-      <div className="glass-light px-4 py-3 rounded-2xl rounded-bl-sm">
-        <div className="flex items-center gap-1">
-          <span className="typing-dot w-1.5 h-1.5 rounded-full bg-accent inline-block"></span>
-          <span className="typing-dot w-1.5 h-1.5 rounded-full bg-accent inline-block"></span>
-          <span className="typing-dot w-1.5 h-1.5 rounded-full bg-accent inline-block"></span>
+        {/* Content */}
+        <div className="flex flex-col">
+          <span className="text-xs font-semibold text-text-secondary mb-1.5">
+            MA ChatBot
+          </span>
+          <div className="flex items-center gap-1.5 py-1">
+            <span className="typing-dot w-2 h-2 rounded-full bg-text-muted inline-block"></span>
+            <span className="typing-dot w-2 h-2 rounded-full bg-text-muted inline-block"></span>
+            <span className="typing-dot w-2 h-2 rounded-full bg-text-muted inline-block"></span>
+          </div>
         </div>
       </div>
     </div>
