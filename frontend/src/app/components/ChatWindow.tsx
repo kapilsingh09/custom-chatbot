@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import MessageBubble from "./MessageBubble";
 import TypingIndicator from "./TypingIndicator";
 
@@ -51,6 +51,18 @@ export default function ChatWindow() {
     textareaRef.current?.focus();
   }, []);
 
+  // Auto-resize textarea
+  const adjustTextareaHeight = useCallback(() => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+    textarea.style.height = "auto";
+    textarea.style.height = `${Math.min(textarea.scrollHeight, 200)}px`;
+  }, []);
+
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [input, adjustTextareaHeight]);
+
   // ---------------------------------------------------------
   // Send a message to the backend
   // ---------------------------------------------------------
@@ -68,11 +80,6 @@ export default function ChatWindow() {
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
-
-    // Reset textarea height
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
-    }
 
     try {
       const response = await fetch(`${API_URL}/chat`, {
@@ -130,25 +137,25 @@ export default function ChatWindow() {
   // Render
   // ---------------------------------------------------------
   return (
-    <div className="flex-1 flex flex-col h-full bg-bg-primary relative">
+    <div className="flex-1 flex flex-col min-w-0 h-full bg-bg-primary">
       {/* ===== TOP BAR ===== */}
-      <header className="flex items-center justify-between px-4 py-3 border-b border-border-subtle">
-        <div className="flex items-center gap-2">
+      <header className="flex items-center justify-between px-5 py-3 border-b border-border-subtle flex-shrink-0">
+        <div className="flex items-center gap-2.5">
           <h1 className="text-base font-semibold text-text-primary">
             MA ChatBot
           </h1>
-          <span className="text-xs text-text-muted font-normal px-2 py-0.5 rounded-full bg-bg-hover">
+          <span className="text-[11px] text-text-muted font-normal px-2 py-0.5 rounded-full bg-bg-hover">
             Gemini
           </span>
         </div>
       </header>
 
       {/* ===== MESSAGES AREA ===== */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="max-w-3xl mx-auto px-4 py-6">
+      <div className="flex-1 overflow-y-auto min-h-0">
+        <div className="max-w-[48rem] mx-auto px-6 py-6">
           {/* Empty state */}
           {messages.length === 0 && !isLoading && (
-            <div className="flex flex-col items-center justify-center min-h-[60vh] animate-fade-in">
+            <div className="flex flex-col items-center justify-center animate-fade-in" style={{ minHeight: "calc(100vh - 200px)" }}>
               {/* Logo / Icon */}
               <div className="w-14 h-14 rounded-full bg-bg-hover border border-border-subtle flex items-center justify-center mb-6">
                 <i className="fa-solid fa-robot text-2xl text-text-secondary"></i>
@@ -167,11 +174,11 @@ export default function ChatWindow() {
                     key={i}
                     onClick={() => sendMessage(s.text)}
                     className="border border-border-subtle rounded-xl px-4 py-3.5 text-left
-                               hover:bg-bg-hover
-                               transition-all duration-200 group cursor-pointer"
+                               bg-transparent hover:bg-bg-hover
+                               transition-all duration-200 group cursor-pointer flex flex-col"
                   >
                     <i
-                      className={`fa-solid ${s.icon} text-text-muted text-xs mb-2.5 block
+                      className={`fa-solid ${s.icon} text-text-muted text-xs mb-2.5
                                  group-hover:text-text-secondary transition-colors duration-200`}
                     ></i>
                     <span className="text-sm text-text-secondary group-hover:text-text-primary transition-colors duration-200 leading-snug">
@@ -184,23 +191,33 @@ export default function ChatWindow() {
           )}
 
           {/* Message list */}
-          <div className="space-y-6">
-            {messages.map((msg) => (
-              <MessageBubble key={msg.id} message={msg} />
-            ))}
+          {messages.length > 0 && (
+            <div className="space-y-6">
+              {messages.map((msg) => (
+                <MessageBubble key={msg.id} message={msg} />
+              ))}
 
-            {/* Typing indicator */}
-            {isLoading && <TypingIndicator />}
+              {/* Typing indicator */}
+              {isLoading && <TypingIndicator />}
 
-            {/* Scroll anchor */}
-            <div ref={messagesEndRef} />
-          </div>
+              {/* Scroll anchor */}
+              <div ref={messagesEndRef} />
+            </div>
+          )}
+
+          {/* Typing indicator when no messages yet */}
+          {messages.length === 0 && isLoading && (
+            <div className="space-y-6">
+              <TypingIndicator />
+              <div ref={messagesEndRef} />
+            </div>
+          )}
         </div>
       </div>
 
       {/* ===== INPUT BAR ===== */}
-      <div className="border-t border-border-subtle bg-bg-primary">
-        <div className="max-w-3xl mx-auto px-4 py-4">
+      <div className="flex-shrink-0 bg-bg-primary px-4 pb-4 pt-2">
+        <div className="max-w-[48rem] mx-auto">
           <div
             className="flex items-end gap-3 bg-bg-input border border-border-input rounded-2xl px-4 py-3
                         focus-within:border-white/20 focus-within:bg-bg-input-focus
@@ -208,9 +225,10 @@ export default function ChatWindow() {
           >
             {/* Attach button */}
             <button
+              type="button"
               className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0
                          text-text-muted hover:text-text-secondary
-                         transition-colors duration-150 cursor-pointer mb-0.5"
+                         transition-colors duration-150 cursor-pointer"
               title="Attach file"
             >
               <i className="fa-solid fa-paperclip text-sm"></i>
@@ -225,19 +243,21 @@ export default function ChatWindow() {
               placeholder="Message MA ChatBot..."
               disabled={isLoading}
               rows={1}
-              className="flex-1 bg-transparent text-sm text-text-primary placeholder-text-placeholder
-                         outline-none disabled:opacity-50 leading-6 max-h-[200px] overflow-y-auto"
+              className="flex-1 bg-transparent text-sm text-text-primary placeholder:text-text-placeholder
+                         outline-none disabled:opacity-50 leading-6 max-h-[200px] overflow-y-auto py-1"
+              style={{ height: "auto" }}
             />
 
             {/* Send button */}
             <button
+              type="button"
               onClick={() => sendMessage()}
               disabled={!input.trim() || isLoading}
               className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0
                          bg-send-bg text-send-text
                          disabled:bg-send-disabled disabled:text-text-muted disabled:cursor-not-allowed
                          hover:opacity-90 active:scale-95
-                         transition-all duration-150 cursor-pointer mb-0.5"
+                         transition-all duration-150 cursor-pointer"
             >
               {isLoading ? (
                 <i className="fa-solid fa-spinner fa-spin text-xs"></i>
@@ -247,7 +267,7 @@ export default function ChatWindow() {
             </button>
           </div>
 
-          <p className="text-[11px] text-text-muted text-center mt-2.5">
+          <p className="text-[11px] text-text-muted text-center mt-2">
             MA ChatBot can make mistakes. Verify important information.
           </p>
         </div>
